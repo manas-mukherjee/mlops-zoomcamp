@@ -84,7 +84,7 @@ python hpo.py --data_path ../data/output --num_trials 10
 [I 2023-05-23 21:52:00,844] Trial 9 finished with value: 2.486106021576535 and parameters: {'n_estimators': 22, 'max_depth': 2, 'min_samples_split': 8, 'min_samples_leaf': 2}. Best is trial 2 with value: 2.449827329704216.
 ```
 
-![MLFlow View](homework/hyperparameters_optuna_mlflow.png)
+![MLFlow View](hyperparameters_optuna_mlflow.png)
 
 ## Q5. Promote the best model to the model registry
 
@@ -92,3 +92,4 @@ python hpo.py --data_path ../data/output --num_trials 10
 python register_model.py --data_path ../data/output
 ```
 
+![MLFlow View](registered_best_model.png)

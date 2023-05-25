@@ -7,6 +7,7 @@ import optuna
 from optuna.samplers import TPESampler
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error
+import mlflow
 
 mlflow.set_tracking_uri("http://127.0.0.1:5000")
 mlflow.set_experiment("random-forest-hyperopt")
@@ -42,16 +43,25 @@ def run_optimization(data_path: str, num_trials: int):
             'random_state': 42,
             'n_jobs': -1
         }
+        
 
         rf = RandomForestRegressor(**params)
-        rf.fit(X_train, y_train)
-        y_pred = rf.predict(X_val)
-        rmse = mean_squared_error(y_val, y_pred, squared=False)
+
+        with mlflow.start_run() as run:
+            rf.fit(X_train, y_train)
+            y_pred = rf.predict(X_val)
+            rmse = mean_squared_error(y_val, y_pred, squared=False)
+
+            for k, v in params.items():
+                print(k, v)
+                mlflow.log_param(k, v)
+            mlflow.log_metric("validation_RMSE", rmse)
 
         return rmse
 
     sampler = TPESampler(seed=42)
     study = optuna.create_study(direction="minimize", sampler=sampler)
+
     study.optimize(objective, n_trials=num_trials)
 
 
