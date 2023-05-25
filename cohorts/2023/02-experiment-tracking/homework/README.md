@@ -14,6 +14,21 @@ Process data:
   - val.pkl
   - test.pkl
 
+Env setup:
+
+```
+python -m venv venv_02
+source venv_02/bin/activate
+pip install  ipykernel
+python -m ipykernel install --user --name=venv_02
+```
+
+## Q1. MLFlow version
+```
+mlflow --version
+mlflow, version 2.3.2
+```
+
 ## Q2. Download and preprocess the data
 
 ```
