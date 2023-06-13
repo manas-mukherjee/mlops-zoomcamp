@@ -10,10 +10,14 @@ import mlflow
 import xgboost as xgb
 from prefect import flow, task
 from prefect import get_run_logger
+from prefect.runtime import flow_run, task_run
 import os
 
-
-@task(retries=3, retry_delay_seconds=2)
+@task(
+    retries=3, 
+    retry_delay_seconds=2,
+    name="Read taxi data"
+    )
 def read_data(filename: str) -> pd.DataFrame:
 
     logger = get_run_logger()
