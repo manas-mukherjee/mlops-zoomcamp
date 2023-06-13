@@ -125,7 +125,7 @@ def train_best_model(
 @task
 def markdown_task():
     validation_RMSE = 5.37 # Not implemented yet
-    markdown_report = f"""# Sales Report
+    markdown_report = f"""# TaxiData: Generated Artifact
 
         ## Summary
 
