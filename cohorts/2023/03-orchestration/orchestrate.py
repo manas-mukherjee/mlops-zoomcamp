@@ -11,6 +11,7 @@ import xgboost as xgb
 from prefect import flow, task
 from prefect import get_run_logger
 from prefect.runtime import flow_run, task_run
+from prefect.artifacts import create_markdown_artifact
 import os
 
 @task(
@@ -121,6 +122,24 @@ def train_best_model(
     return None
 
 
+@task
+def markdown_task():
+    validation_RMSE = 5.37 # Not implemented yet
+    markdown_report = f"""# Sales Report
+
+        ## Summary
+
+        Taxi Data Model Result
+        ${validation_RMSE}
+
+    """
+    create_markdown_artifact(
+        key="gtm-report",
+        markdown=markdown_report,
+        description="Quarterly Sales Report",
+    )
+
+
 @flow
 def main_flow(
     train_path: str = "./cohorts/2023/03-orchestration/data/green_tripdata_2023-01.parquet",
@@ -141,6 +160,9 @@ def main_flow(
 
     # Train
     train_best_model(X_train, X_val, y_train, y_val, dv)
+
+    # Create Markdown Artifacts
+    markdown_task()
 
 
 if __name__ == "__main__":
