@@ -32,6 +32,12 @@ def prepare_dictionary(df):
     dicts = df[categorical].to_dict(orient='records')
     return dicts
 
+def save_result_local(mean_pred):
+    file_out = "result.txt"
+    with open(file_out, "w") as f:
+        f.write(str(mean_pred))
+    print(f"data successfully saved to {file_out}")
+    
 def apply_model(input_file, model, output_file, params):
     print(f"reading the data from {input_file}")
     df = read_data(input_file)
@@ -42,7 +48,11 @@ def apply_model(input_file, model, output_file, params):
     print(f"applying the model to {input_file}")
     X_val = dv.transform(dicts)
     y_pred = model.predict(X_val)
-    print(f"mean prediction: {y_pred.mean():.2f}")
+    mean_pred = np.mean(y_pred)
+    
+    # round to 2 decimal places
+    print(f"mean prediction: {mean_pred:.2f}")
+    save_result_local(mean_pred)
     
     year = params['year']
     month = params['month']

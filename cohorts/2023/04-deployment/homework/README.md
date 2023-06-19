@@ -25,4 +25,19 @@ Virtualenv location: /Users/mmukherjee/.local/share/virtualenvs/homework-pvpq9nO
 
 $ pipenv shell 
 
+## Dockerize batch prediction 
 
+### Base directory 
+/Users/mmukherjee/Documents/LearningAndDevelopment/DataTalksClub/mlops-zoomcamp/cohorts/2023/04-deployment/homework
+
+ - build image 
+
+➜  homework git:(main) ✗ docker build -t mlops-zoomcamp-model:v1 .
+
+ - run container 
+
+➜  homework git:(main) ✗ docker run -it mlops-zoomcamp-model:v1 sh
+
+ - explore a running container 
+
+➜  docker exec -it name-of-container bash
