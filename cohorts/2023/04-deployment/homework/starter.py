@@ -14,7 +14,7 @@ def load_model(model_file_name):
     return dv, model
 
 def read_data(filename):
-    print(f"reading the data from {filename}")
+    
     df = pd.read_parquet(filename)
     
     df['duration'] = df.tpep_dropoff_datetime - df.tpep_pickup_datetime
@@ -33,16 +33,16 @@ def prepare_dictionary(df):
     return dicts
 
 def apply_model(input_file, model, output_file, params):
-    print(f"applying the model to {input_file}")
-    
+    print(f"reading the data from {input_file}")
     df = read_data(input_file)
-    print(df.shape)
     dicts = prepare_dictionary(df)
     
     dv, model = load_model(model)
     
+    print(f"applying the model to {input_file}")
     X_val = dv.transform(dicts)
     y_pred = model.predict(X_val)
+    print(f"mean prediction: {y_pred.mean():.2f}")
     
     year = params['year']
     month = params['month']
